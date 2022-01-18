@@ -15,7 +15,7 @@
         <tr v-for="oferta in ofertas" 
         :key=oferta.id>
         <td>{{oferta.id}}</td>
-        <td>{{nombre.nombre}}</td>
+        <td>{{empresaa(oferta.id)}}</td>
         <td>{{oferta.nombre}}</td>
         <td>{{oferta.contrato}}</td>
         <td>{{oferta.contacto}}</td>
@@ -48,17 +48,13 @@ export default {
   data(){
         return{
             ofertas:[],
-            nombre:[]
+            
         }
   },
   mounted(){
       api.ofertas.getOfertaEmpresa(this.empresa)
       .then((response) => this.ofertas = response.data)
-      .catch((error) => alert(error)),
-      api.empresas.getOne(this.empresa)
-      .then((response) => this.nombre = response.data)
-      .catch((error) => alert(error))
-      
+      .catch((error) => alert(error))      
   },
   methods: {
     verOferta(id){
@@ -74,6 +70,10 @@ export default {
       api.ofertas.delete(id)
       .then((response) => id = response.data)
       .catch((error) => alert(error))
+    },
+    empresaa(id){
+      let empresa= this.$store.state.empresas.find(item => item.id === id);
+      return empresa.nombre
     }
   }
   
